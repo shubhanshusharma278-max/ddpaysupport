@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PaySupport — Payment Help Center</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo { font-weight: 700; font-size: 1.2rem; color: #38bdf8; }
+    nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      margin-left: 18px;
+      font-size: 0.95rem;
+    }
+    nav a:hover { color: #38bdf8; }
+
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+    .hero h1 { font-size: 2rem; margin-bottom: 12px; }
+    .hero p { color: #94a3b8; max-width: 520px; margin: 0 auto; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      padding: 24px;
+    }
+    .card h2 { margin-bottom: 14px; font-size: 1.15rem; color: #38bdf8; }
+
+    form { display: grid; gap: 12px; }
+    label { font-size: 0.9rem; color: #cbd5e1; }
+    input, textarea, select {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 9px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #e2e8f0;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid #38bdf8;
+      border-color: transparent;
+    }
+    button {
+      background: #38bdf8;
+      color: #0f172a;
+      border: none;
+      padding: 12px;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #7dd3fc; }
+
+    .faq-item {
+      border-bottom: 1px solid #334155;
+      padding: 14px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+    .faq-a {
+      display: none;
+      color: #94a3b8;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    .status-ok { color: #4ade80; font-weight: 600; }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: #22c55e;
+      color: #052e16;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-weight: 600;
+      opacity: 0;
+      transition: 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">💳 PaySupport</div>
+    <nav>
+      <a href="#ticket">Ticket</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Payment Help Center</h1>
+    <p>Payment fail ho gaya? Refund chahiye? Apna issue niche submit karein — hum jaldi reply karenge.</p>
+  </section>
+
+  <div class="container">
+
+    <!-- Support Ticket Form -->
+    <div class="card" id="ticket">
+      <h2>🎫 Raise a Support Ticket</h2>
+      <form id="ticketForm">
+        <div>
+          <label for="name">Naam</label>
+          <input id="name" type="text" placeholder="Aapka naam" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required />
+        </div>
+        <div>
+          <label for="issue">Issue Type</label>
+          <select id="issue" required>
+            <option value="">-- Chunein --</option>
+            <option>Payment Failed</option>
+            <option>Refund Request</option>
+            <option>Wrong Amount Deducted</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="txn">Transaction ID (optional)</label>
+          <input id="txn" type="text" placeholder="TXN123456" />
+        </div>
+        <div>
+          <label for="msg">Details</label>
+          <textarea id="msg" rows="4" placeholder="Apna issue describe karein..." required></textarea>
+        </div>
+        <button type="submit">Submit Ticket</button>
+      </form>
+    </div>
+
+    <!-- Status -->
+    <div class="card">
+      <h2>🟢 System Status</h2>
+      <p>All payment gateways: <span class="status-ok">Operational</span></p>
+      <p style="color:#94a3b8;font-size:0.85rem;margin-top:8px;">Last checked: just now</p>
+    </div>
+
+    <!-- FAQ -->
+    <div class="card" id="faq">
+      <h2>❓ Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-q">Refund kitne din me aata hai? <span>+</span></div>
+        <div class="faq-a">Refund approve hone ke baad 5–7 business days me original payment method par aa jata hai.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Payment cut hua par order nahi mila? <span>+</span></div>
+        <div class="faq-a">Transaction ID ke saath ticket raise karein. 24 ghante me verify karke refund ya order restore kar diya jayega.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Support ka reply kitni der me? <span>+</span></div>
+        <div class="faq-a">Normal hours me 2–4 ghante, peak time me 24 ghante tak.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>© 2026 PaySupport — Demo site. Apni branding ke saath use karein.</footer>
+
+  <div class="toast" id="toast">✅ Ticket submit ho gaya!</div>
+
+  <script>
+    // FAQ toggle
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        q.parentElement.classList.toggle('open');
+      });
+    });
+
+    // Form submit
+    const form = document.getElementById('ticketForm');
+    const toast = document.getElementById('toast');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Yahan aap apna backend / API endpoint call karenge
+      // fetch('/api/ticket', { method:'POST', body: JSON.stringify({...}) })
+
+      toast.classList.add('show');
+      form.reset();
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    });
+  </script>
+
+</body>
+</html>
