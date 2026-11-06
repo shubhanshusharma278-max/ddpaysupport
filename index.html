@@ -1,239 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PaySupport — Payment Help Center</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background: #0f172a;
-      color: #e2e8f0;
-      min-height: 100vh;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 24px;
-      background: #1e293b;
-      border-bottom: 1px solid #334155;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    .logo { font-weight: 700; font-size: 1.2rem; color: #38bdf8; }
-    nav a {
-      color: #cbd5e1;
-      text-decoration: none;
-      margin-left: 18px;
-      font-size: 0.95rem;
-    }
-    nav a:hover { color: #38bdf8; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>DDPay Support</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  body{background:#e2ede2;display:flex;justify-content:center;min-height:100vh;color:#0f172a}
+  
+  /* Mobile App Container */
+  .app-container{width:100%;max-width:450px;background:#f4f9f4;min-height:100vh;position:relative;box-shadow:0 0 20px rgba(0,0,0,0.05);display:flex;flex-direction:column}
+  
+  /* Header */
+  .top-bar{display:flex;justify-content:space-between;padding:20px 20px 10px;align-items:center}
+  .badge{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:0.5px}
+  .badge-live{background:#e6f4ea;color:#166534;border:1px solid #bbf7d0}
+  .badge-live .dot{width:6px;height:6px;background:#22c55e;border-radius:50%}
+  .badge-secure{background:#fff;color:#166534;border:1px solid #d1e7dd;box-shadow:0 2px 5px rgba(0,0,0,0.02)}
+  
+  /* Logo Section */
+  .logo-section{text-align:center;padding:20px 20px 10px}
+  .brand-name{font-size:36px;font-weight:900;color:#0f172a;letter-spacing:-1px;display:flex;justify-content:center;align-items:center;gap:2px}
+  .brand-d{color:#f59e0b;text-shadow:2px 2px 0px #b45309}
+  .brand-d2{color:#ef4444;text-shadow:2px 2px 0px #b91c1c}
+  .brand-pay{color:#3b82f6;text-shadow:2px 2px 0px #1d4ed8}
+  .brand-sub{font-size:9px;font-weight:700;color:#94a3b8;letter-spacing:6px;margin-top:5px;margin-left:6px}
 
-    .hero {
-      text-align: center;
-      padding: 60px 20px 40px;
-    }
-    .hero h1 { font-size: 2rem; margin-bottom: 12px; }
-    .hero p { color: #94a3b8; max-width: 520px; margin: 0 auto; }
+  /* Headings */
+  .headings{text-align:center;padding:25px 20px 20px}
+  .headings h1{font-size:24px;font-weight:800;color:#0f172a;margin-bottom:8px}
+  .headings p{font-size:15px;color:#475569}
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
-      display: grid;
-      gap: 20px;
-    }
+  /* Issue List */
+  .issue-list{padding:0 20px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .issue-btn{display:flex;align-items:center;gap:15px;background:#fff;border:1px solid #d1e7dd;padding:18px 20px;border-radius:16px;font-size:16px;font-weight:700;color:#1e293b;cursor:pointer;transition:all 0.2s;box-shadow:0 2px 10px rgba(0,0,0,0.02);text-align:left}
+  .issue-btn:hover,.issue-btn:active{border-color:#166534;background:#f0fdf4;transform:scale(0.98)}
+  .issue-btn .icon{font-size:20px;width:30px;text-align:center;color:#166534}
+  
+  /* Form Section */
+  .form-section{display:none;padding:20px;flex-direction:column;flex:1;animation:slideUp 0.3s ease-out}
+  @keyframes slideUp{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+  
+  .verification-head{text-align:center;margin-bottom:25px}
+  .verification-head h2{font-size:22px;font-weight:800;color:#0f172a;margin-bottom:5px}
+  .verification-head p{font-size:15px;color:#475569;font-weight:600}
+  
+  .form-group{margin-bottom:15px}
+  .form-group label{display:block;font-size:12px;font-weight:800;color:#0f5b3e;margin-bottom:8px;letter-spacing:0.5px}
+  .form-group input, .form-group textarea{width:100%;padding:16px;border-radius:12px;border:1.5px solid #c2dfc8;background:#fff;font-size:15px;font-family:inherit;transition:border 0.2s;color:#1e293b}
+  .form-group input::placeholder, .form-group textarea::placeholder{color:#94a3b8;font-weight:400}
+  .form-group input:focus, .form-group textarea:focus{outline:none;border-color:#166534;box-shadow:0 0 0 3px rgba(22,101,52,0.1)}
+  
+  .submit-btn{background:#0f6e35;color:#fff;border:none;padding:16px;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:background 0.2s;margin-top:10px;box-shadow:0 4px 15px rgba(15,110,53,0.2);display:flex;justify-content:center;align-items:center;gap:8px}
+  .submit-btn:hover{background:#0b5529}
+  .submit-btn:disabled{opacity:0.7;cursor:not-allowed}
 
-    .card {
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 14px;
-      padding: 24px;
-    }
-    .card h2 { margin-bottom: 14px; font-size: 1.15rem; color: #38bdf8; }
+  .back-btn{background:none;border:none;color:#166534;font-weight:700;font-size:14px;display:flex;align-items:center;gap:5px;cursor:pointer;margin-bottom:10px;padding:5px 0;align-self:flex-start}
 
-    form { display: grid; gap: 12px; }
-    label { font-size: 0.9rem; color: #cbd5e1; }
-    input, textarea, select {
-      width: 100%;
-      padding: 11px 13px;
-      border-radius: 9px;
-      border: 1px solid #334155;
-      background: #0f172a;
-      color: #e2e8f0;
-      font-size: 0.95rem;
-      font-family: inherit;
-    }
-    input:focus, textarea:focus, select:focus {
-      outline: 2px solid #38bdf8;
-      border-color: transparent;
-    }
-    button {
-      background: #38bdf8;
-      color: #0f172a;
-      border: none;
-      padding: 12px;
-      border-radius: 9px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover { background: #7dd3fc; }
+  /* Toast */
+  .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-100px);background:#166534;color:#fff;padding:12px 24px;border-radius:30px;font-weight:600;font-size:14px;opacity:0;transition:0.3s;box-shadow:0 5px 15px rgba(22,101,52,0.3);z-index:999}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  .toast.error{background:#ef4444;box-shadow:0 5px 15px rgba(239,68,68,0.3)}
 
-    .faq-item {
-      border-bottom: 1px solid #334155;
-      padding: 14px 0;
-    }
-    .faq-item:last-child { border-bottom: none; }
-    .faq-q {
-      cursor: pointer;
-      font-weight: 600;
-      display: flex;
-      justify-content: space-between;
-    }
-    .faq-a {
-      display: none;
-      color: #94a3b8;
-      font-size: 0.9rem;
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-    .faq-item.open .faq-a { display: block; }
-
-    .status-ok { color: #4ade80; font-weight: 600; }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      background: #22c55e;
-      color: #052e16;
-      padding: 12px 22px;
-      border-radius: 10px;
-      font-weight: 600;
-      opacity: 0;
-      transition: 0.3s;
-      pointer-events: none;
-    }
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: #64748b;
-      font-size: 0.85rem;
-    }
-  </style>
+  footer{text-align:center;padding:20px;font-size:12px;color:#94a3b8;margin-top:auto}
+</style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">💳 PaySupport</div>
-    <nav>
-      <a href="#ticket">Ticket</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <h1>Payment Help Center</h1>
-    <p>Payment fail ho gaya? Refund chahiye? Apna issue niche submit karein — hum jaldi reply karenge.</p>
-  </section>
-
-  <div class="container">
-
-    <!-- Support Ticket Form -->
-    <div class="card" id="ticket">
-      <h2>🎫 Raise a Support Ticket</h2>
-      <form id="ticketForm">
-        <div>
-          <label for="name">Naam</label>
-          <input id="name" type="text" placeholder="Aapka naam" required />
-        </div>
-        <div>
-          <label for="email">Email</label>
-          <input id="email" type="email" placeholder="you@example.com" required />
-        </div>
-        <div>
-          <label for="issue">Issue Type</label>
-          <select id="issue" required>
-            <option value="">-- Chunein --</option>
-            <option>Payment Failed</option>
-            <option>Refund Request</option>
-            <option>Wrong Amount Deducted</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div>
-          <label for="txn">Transaction ID (optional)</label>
-          <input id="txn" type="text" placeholder="TXN123456" />
-        </div>
-        <div>
-          <label for="msg">Details</label>
-          <textarea id="msg" rows="4" placeholder="Apna issue describe karein..." required></textarea>
-        </div>
-        <button type="submit">Submit Ticket</button>
-      </form>
-    </div>
-
-    <!-- Status -->
-    <div class="card">
-      <h2>🟢 System Status</h2>
-      <p>All payment gateways: <span class="status-ok">Operational</span></p>
-      <p style="color:#94a3b8;font-size:0.85rem;margin-top:8px;">Last checked: just now</p>
-    </div>
-
-    <!-- FAQ -->
-    <div class="card" id="faq">
-      <h2>❓ Frequently Asked Questions</h2>
-      <div class="faq-item">
-        <div class="faq-q">Refund kitne din me aata hai? <span>+</span></div>
-        <div class="faq-a">Refund approve hone ke baad 5–7 business days me original payment method par aa jata hai.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Payment cut hua par order nahi mila? <span>+</span></div>
-        <div class="faq-a">Transaction ID ke saath ticket raise karein. 24 ghante me verify karke refund ya order restore kar diya jayega.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Support ka reply kitni der me? <span>+</span></div>
-        <div class="faq-a">Normal hours me 2–4 ghante, peak time me 24 ghante tak.</div>
-      </div>
-    </div>
-
+<div class="app-container">
+  
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="badge badge-live"><div class="dot"></div> LIVE SUPPORT</div>
+    <div class="badge badge-secure">🛡️ SECURE</div>
   </div>
 
-  <footer>© 2026 PaySupport — Demo site. Apni branding ke saath use karein.</footer>
+  <!-- Main View (Issue List) -->
+  <div id="mainView">
+    <div class="logo-section">
+      <div class="brand-name">
+        <span class="brand-d">D</span><span class="brand-d2">D</span><span class="brand-pay">Pay</span>
+      </div>
+      <div class="brand-sub">SUPPORT CENTER</div>
+    </div>
 
-  <div class="toast" id="toast">✅ Ticket submit ho gaya!</div>
+    <div class="headings">
+      <h1>How can we help you?</h1>
+      <p>Select the issue you are facing</p>
+    </div>
 
-  <script>
-    // FAQ toggle
-    document.querySelectorAll('.faq-q').forEach(q => {
-      q.addEventListener('click', () => {
-        q.parentElement.classList.toggle('open');
+    <div class="issue-list" id="issueList">
+      <button class="issue-btn" onclick="openForm('Selling issue')"><span class="icon">🏪</span> 1. Selling issue</button>
+      <button class="issue-btn" onclick="openForm('Deposit failed')"><span class="icon">💳</span> 2. Deposit failed</button>
+      <button class="issue-btn" onclick="openForm('Account freeze')"><span class="icon">🔒</span> 3. Account freeze</button>
+      <button class="issue-btn" onclick="openForm('Account hacked')"><span class="icon">🛡️</span> 4. Account hacked</button>
+      <button class="issue-btn" onclick="openForm('UPI change')"><span class="icon">📱</span> 5. UPI change</button>
+    </div>
+  </div>
+
+  <!-- Form View (Hidden Initially) -->
+  <div class="form-section" id="formView">
+    
+    <button class="back-btn" onclick="goBack()">← Back</button>
+
+    <div class="verification-head">
+      <h2>Ticket Details</h2>
+      <p id="formSubtitle">Selling issue</p>
+    </div>
+    
+    <form id="supportForm">
+      <input type="hidden" id="selectedIssue" />
+      
+      <div class="form-group">
+        <label>YOUR NAME</label>
+        <input type="text" id="userName" placeholder="Enter your full name" required />
+      </div>
+
+      <div class="form-group">
+        <label>EMAIL / MOBILE NUMBER</label>
+        <input type="text" id="userContact" placeholder="Enter email or mobile" required />
+      </div>
+
+      <div class="form-group">
+        <label>TRANSACTION ID (OPTIONAL)</label>
+        <input type="text" id="txnId" placeholder="e.g. TXN12345678" />
+      </div>
+      
+      <div class="form-group">
+        <label>DESCRIBE YOUR ISSUE</label>
+        <textarea id="userMsg" rows="3" placeholder="Explain your problem here..." required></textarea>
+      </div>
+      
+      <button type="submit" class="submit-btn" id="submitBtn">
+        🛡️ Submit Ticket
+      </button>
+    </form>
+  </div>
+
+  <footer>© 2026 DDPay Support</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const mainView = document.getElementById('mainView');
+  const formView = document.getElementById('formView');
+  const formSubtitle = document.getElementById('formSubtitle');
+  const form = document.getElementById('supportForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const toast = document.getElementById('toast');
+
+  function openForm(issueName) {
+    mainView.style.display = 'none';
+    formView.style.display = 'flex';
+    formSubtitle.textContent = issueName;
+    document.getElementById('selectedIssue').value = issueName;
+    window.scrollTo(0, 0);
+  }
+
+  function goBack() {
+    formView.style.display = 'none';
+    mainView.style.display = 'block';
+    form.reset(); 
+  }
+
+  function showToast(msg, isError = false) {
+    toast.textContent = msg;
+    toast.classList.toggle('error', isError);
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = 'Sending...';
+
+    const payload = {
+      message: 
+        `🎫 NEW SUPPORT TICKET\n\n` +
+        `📌 Issue: ${document.getElementById('selectedIssue').value}\n` +
+        `👤 Name: ${document.getElementById('userName').value}\n` +
+        `📞 Contact: ${document.getElementById('userContact').value}\n` +
+        `🔢 TXN ID: ${document.getElementById('txnId').value || 'N/A'}\n` +
+        `📝 Details: ${document.getElementById('userMsg').value}`
+    };
+
+    try {
+      const res = await fetch('/api/telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
-    });
-
-    // Form submit
-    const form = document.getElementById('ticketForm');
-    const toast = document.getElementById('toast');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      // Yahan aap apna backend / API endpoint call karenge
-      // fetch('/api/ticket', { method:'POST', body: JSON.stringify({...}) })
-
-      toast.classList.add('show');
-      form.reset();
-      setTimeout(() => toast.classList.remove('show'), 2500);
-    });
-  </script>
+      
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Failed to send');
+      
+      showToast('✅ Ticket submitted successfully!');
+      goBack(); 
+      
+    } catch (err) {
+      showToast('❌ Error: ' + (err.message || 'Could not send'), true);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '🛡️ Submit Ticket';
+    }
+  });
+</script>
 
 </body>
 </html>
